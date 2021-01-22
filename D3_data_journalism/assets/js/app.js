@@ -1,8 +1,4 @@
 // @TODO: YOUR CODE HERE!
-/* Step 1
- * Define the "workspace area"
- */
-// =================================
 
 var svgWidth = 960;
 var svgHeight = 500;
@@ -18,7 +14,7 @@ var width = svgWidth - margin.left - margin.right;
 var height = svgHeight - margin.top - margin.bottom;
 
 var svg = d3
-    .select("body")
+    .select("#scatter")
     .append("svg")
     .attr("width", svgWidth)
     .attr("height", svgHeight);
@@ -61,12 +57,18 @@ d3.csv("assets/data/data.csv").then(function (CensusData) {
         .call(SmokesAxis);
 
 
-    var ScatterGenerator = d3.scatter() 
-        .x(d => xAgeTimeScale(d.age))
-        .y(d => ySmokesLinearScale(d.smokes));
+    // var ScatterGenerator = d3.scatter()
+    //     .x(d => xAgeTimeScale(d.age))
+    //     .y(d => ySmokesLinearScale(d.smokes));
 
-    chartGroup.append("scatter")
-        .data([CensusData])
-        .attr("d", ScatterGenerator);
+    var ScatterDots = chartGroup.append("g")
+        .selectAll("dot")
+        .data(CensusData)
+        .enter()
+        .append("circle")
+        .attr("cx", function (d) { return xAgeScale(d.age); })
+        .attr("cy", function (d) { return ySmokesScale(d.smokes); })
+        .attr("r", 5)
+        .style("fill", "#69b3a2")
 });
 
