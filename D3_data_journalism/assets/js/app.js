@@ -68,7 +68,20 @@ d3.csv("assets/data/data.csv").then(function (CensusData) {
         .append("circle")
         .attr("cx", function (d) { return xAgeScale(d.age); })
         .attr("cy", function (d) { return ySmokesScale(d.smokes); })
-        .attr("r", 5)
+        .attr("r", 15)
         .style("fill", "#69b3a2")
+
+
+    chartGroup.selectAll("dot")
+        .data(CensusData)
+        .enter()
+        .append("text")
+        .classed("stateText", true)
+        .text(d => d.abbr)
+        .attr("x", d => xAgeScale(d.age))
+        .attr("y", d => ySmokesScale(d.smokes - .22))
+
+
+
 });
 
