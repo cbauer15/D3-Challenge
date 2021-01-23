@@ -56,11 +56,7 @@ d3.csv("assets/data/data.csv").then(function (CensusData) {
         .attr("stroke", "black")
         .call(SmokesAxis);
 
-
-    // var ScatterGenerator = d3.scatter()
-    //     .x(d => xAgeTimeScale(d.age))
-    //     .y(d => ySmokesLinearScale(d.smokes));
-
+    // Creating Dots
     var ScatterDots = chartGroup.append("g")
         .selectAll("dot")
         .data(CensusData)
@@ -68,18 +64,58 @@ d3.csv("assets/data/data.csv").then(function (CensusData) {
         .append("circle")
         .attr("cx", function (d) { return xAgeScale(d.age); })
         .attr("cy", function (d) { return ySmokesScale(d.smokes); })
-        .attr("r", 15)
+        .attr("r", 13.5)
         .style("fill", "#69b3a2")
 
-
+    // Label in Dot
     chartGroup.selectAll("dot")
         .data(CensusData)
         .enter()
         .append("text")
         .classed("stateText", true)
         .text(d => d.abbr)
-        .attr("x", d => xAgeScale(d.age))
-        .attr("y", d => ySmokesScale(d.smokes - .22))
+        .attr("x", d => xAgeScale(d.age ))
+        .attr("y", d => ySmokesScale(d.smokes - .27))
+
+        // x-axis title
+        chartGroup.append("text")
+                .attr("transform", `translate(${width / 2}, ${height + margin.top + 20})`)
+        .attr("text-anchor", "middle")
+        .attr("font-size", "16px")
+        .attr("stroke", "black")
+        .text("Age (Median)");
+    
+        // y-axis title
+        chartGroup.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("x", 0-height/2)
+            .attr("y", 0-margin.left)
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .attr("stroke", "black")
+            .text("Smokes (%)"); 
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
