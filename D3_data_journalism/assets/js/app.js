@@ -36,12 +36,17 @@ d3.csv("assets/data/data.csv").then(function (CensusData) {
         data.obesity = +data.obesity;
     });
 
+    var domainX = d3.extent(CensusData, d => d.age) 
+        domainX[0] = domainX[0] - 2
+        domainX[1] = domainX[1] + 1
+
+
     var xAgeScale = d3.scaleLinear()
-        .domain(d3.extent(CensusData, d => d.age))
+        .domain(domainX)
         .range([0, width]);
 
     var ySmokesScale = d3.scaleLinear()
-        .domain([0, d3.max(CensusData, d => d.smokes)])
+        .domain([9, d3.max(CensusData, d => d.smokes)+1])
         .range([height, 0]);
 
     var AgeAxis = d3.axisBottom(xAgeScale);
@@ -62,10 +67,10 @@ d3.csv("assets/data/data.csv").then(function (CensusData) {
         .data(CensusData)
         .enter()
         .append("circle")
+        .classed("stateCircle", true)
         .attr("cx", function (d) { return xAgeScale(d.age); })
         .attr("cy", function (d) { return ySmokesScale(d.smokes); })
-        .attr("r", 13.5)
-        .style("fill", "#69b3a2")
+        .attr("r", 10)
 
     // Label in Dot
     chartGroup.selectAll("dot")
@@ -75,7 +80,7 @@ d3.csv("assets/data/data.csv").then(function (CensusData) {
         .classed("stateText", true)
         .text(d => d.abbr)
         .attr("x", d => xAgeScale(d.age ))
-        .attr("y", d => ySmokesScale(d.smokes - .27))
+        .attr("y", d => ySmokesScale(d.smokes - .15))
 
         // x-axis title
         chartGroup.append("text")
@@ -95,29 +100,5 @@ d3.csv("assets/data/data.csv").then(function (CensusData) {
             .attr("stroke", "black")
             .text("Smokes (%)"); 
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 });
 
